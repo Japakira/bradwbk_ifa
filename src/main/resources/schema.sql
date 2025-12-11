@@ -1,0 +1,28 @@
+DROP TABLE IF EXISTS tb_atividade CASCADE;
+DROP TABLE IF EXISTS tb_responsavel CASCADE;
+DROP TABLE IF EXISTS tb_iniciativa CASCADE;
+
+-- INICIATIVA
+CREATE TABLE tb_iniciativa (
+    id BIGSERIAL PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL UNIQUE,
+    descricao TEXT NOT NULL
+);
+
+-- RESPONSÁVEL
+CREATE TABLE tb_responsavel (
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE
+);
+
+-- ATIVIDADE
+CREATE TABLE tb_atividade (
+    id BIGSERIAL PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    descricao TEXT NOT NULL,
+    data TIMESTAMP NOT NULL DEFAULT NOW(),
+    iniciativa_id BIGINT NOT NULL REFERENCES tb_iniciativa(id) ON DELETE CASCADE,
+    responsavel_id BIGINT REFERENCES tb_responsavel(id) ON DELETE SET NULL
+);
